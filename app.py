@@ -6,6 +6,11 @@ from database.clientes import clientes
 app = Flask(__name__)
 
 
+def get_id():
+    id = 1
+    id += 1
+    return id
+
 
 @app.get("/clients")
 def hello_world():
@@ -15,7 +20,7 @@ def hello_world():
 @app.post("/clients")
 def create_client():
     newClient = {
-        "id": len(clientes) + 1,
+        "id": get_id(),
         "name": request.json["name"],
         "email": request.json["email"]
 
@@ -26,8 +31,10 @@ def create_client():
 
 @app.delete("/clients/<int:id>")
 def delete_client(id):
-    clientes.pop(id - 1)
-    return "ok"
+    for i in range(len(clientes)):
+        if int(clientes[i]["id"]) == int(id):
+            clientes.pop(i)
+    return {"message": "deletado com sucesso!"}
 
 
 

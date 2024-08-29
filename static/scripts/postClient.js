@@ -23,8 +23,8 @@ form.addEventListener("submit", (event) =>{
             <td>${data.id}</td> 
             <td>${data.name}</td>
             <td>${data.email}</td>
-             <td><button type="button" class="btn btn-primary" id="edit-button">Editar</button> 
-             <button type="button" class="btn btn-danger" id="delete-button">Deletar</button></td>
+             <td><button type="button" class="btn btn-primary" class="edit-button">Editar</button> 
+             <button type="button" class="btn btn-danger" class="delete-button">Deletar</button></td>
           </tr>
         `;
         table.innerHTML += novaLinha;
