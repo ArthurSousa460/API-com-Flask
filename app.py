@@ -1,5 +1,4 @@
 from flask import Flask, render_template, request
-import json
 from database.clientes import clientes
 
 
@@ -25,7 +24,13 @@ def create_client():
 
     return newClient
 
+@app.delete("/clients/<int:id>")
+def delete_client(id):
+    clientes.pop(id - 1)
+    return "ok"
+
+
 
 
 if __name__ =="__main__":
-    app.run(host="0.0.0.0", port=5000)
+    app.run(host="0.0.0.0", port=5000, debug=True)
