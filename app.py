@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import Mapped, mapped_column
-from database.clientes import clientes
 import os
 
 
@@ -28,20 +27,24 @@ with app.app_context():
 
 @app.get("/clients")
 def hello_world():
-    return render_template("index.html", CLIENTES=clientes)
+    clients = db.session.query(Client).all()
+    return render_template("index.html", CLIENTES=clients)
 
 
 @app.post("/clients")
 def create_client():
-    newClient = {
-        "id": get_id(),
-        "name": request.json["name"],
-        "email": request.json["email"]
+    newClient =  Client(
+        name= request.json["name"],
+        email =  request.json["email"]
+    )
+    db.session.add(newClient)
+    db.session.commit()
 
+    return {
+        "id": newClient.id,
+        "name": newClient.name,
+        "email": newClient.email
     }
-    clientes.append(newClient)
-
-    return newClient
 
 @app.delete("/clients/<int:id>")
 def delete_client(id):
