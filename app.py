@@ -1,15 +1,29 @@
 from flask import Flask, render_template, request
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.orm import Mapped, mapped_column
 from database.clientes import clientes
+import os
 
+
+basedir = os.path.abspath(os.path.dirname(__file__))
+database_path = os.path.join(basedir, 'database', 'dataBase.sqlite3')
 
 
 app = Flask(__name__)
+app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{database_path}"
+
+db = SQLAlchemy()
+db.init_app(app)
 
 
-def get_id():
-    id = 1
-    id += 1
-    return id
+class Client(db.Model):
+    id: Mapped[int] = mapped_column(primary_key=True)
+    name: Mapped[str]
+    email: Mapped[str] = mapped_column(unique=True)
+
+
+with app.app_context():
+    db.create_all()
 
 
 @app.get("/clients")

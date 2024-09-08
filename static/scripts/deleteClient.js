@@ -1,4 +1,4 @@
-const deleteButton = document.querySelector(".delete-button");
+const deleteButton = document.querySelectorAll(".delete-button");
 
 
 deleteButton.addEventListenerAll("click", async (event) =>{
@@ -10,9 +10,6 @@ deleteButton.addEventListenerAll("click", async (event) =>{
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' }
         })
-        if (!sendClientId.ok) {
-            throw new Error(`Erro: ${sendClientId.status}`);
-        }
 
         client.remove();
 
