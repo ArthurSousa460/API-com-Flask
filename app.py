@@ -48,10 +48,11 @@ def create_client():
 
 @app.delete("/clients/<int:id>")
 def delete_client(id):
-    for i in range(len(clientes)):
-        if int(clientes[i]["id"]) == int(id):
-            clientes.pop(i)
-    return {"message": "deletado com sucesso!"}
+    result = db.get_or_404(Client, int(id))
+    
+    db.session.delete(result)
+    db.session.commit()
+    return {"message": "deletado com sucesso"}
 
 
 
